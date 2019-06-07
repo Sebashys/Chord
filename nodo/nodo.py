@@ -9,6 +9,28 @@ K = 160 ## constante de numero de indicadores en la fingertable
 MAX = 2**K ## maximo numero permitido
 NODOPORT = '5999' ## puerto de comunicacion entre nodos
 
+def between(value,init,end):
+    if init == end:
+        return True
+    elif init > end : ##si el id inicial es mayor que el final
+        shift = MAX - init
+        init = 0
+        end = (end +shift)%MAX
+        value = (value + shift)%MAX # cambio de valor para comparar
+    return init < value < end
+
+def Ebetween(value,init,end):
+    if value == init:
+        return True
+    else:
+        return between(value,init,end)
+
+def betweenE(value,init,end):
+    if value == end:
+        return True
+    else:
+        return between(value,init,end)
+
 
 def hashing(string):
 	objetohash = hashlib.sha1(string.encode('utf8'))
