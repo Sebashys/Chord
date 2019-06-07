@@ -37,7 +37,9 @@ def main():# argv1 : nodoID  argv2 : ipnodo argv3 : ipconexion
 		for i in range(K):
 			start[i] = hex(int(idHash,16) +(2**i) % (2**K)) ## formula para los identificadores de la fingertable del nodo (% para simular el anillo)
 			print (start[i])             
-			
+		predecesor = None ## predecesor sin definir
+		sucesor = None ## sucesor sin definir
+		
 			
 		#__________/ Router del nodo  \_________#
 		contextR = zmq.Context()
@@ -58,7 +60,27 @@ def main():# argv1 : nodoID  argv2 : ipnodo argv3 : ipconexion
 		poller.register(sockrouter,zmq.POLLIN)
 		
 		
+		#______________________/ funciones despues de iniciar un nodo\_________________________________#
+		def successor():
+			return fingertable[0] # susesor en la finger[0]
+			
+		def find_successor(Aid):  
+			if betweenE(Aid, predecesor ,idHash): ## si la id dada esta entre el predecesor y yo
+				return idHash # el susesor soy yo
+			n = self.find_predecessor(id) ## busca alguien anterior a mi en la finger con esa id
+			return n.successor()
+    
+		def find_predecessor(Aid): ## busca alguien anterior a mi en la finger con esa id
+			if Aid == idHash: ## si la id dada es mi misma id toma el predecesor
+				return predecesor
+			proxyId = idHash
+			proxySucesor = sucesor
+			while not betweenE(Aid,proxyId,proxySucesor):## mientras la id dada no este entre mi sucesor y yo
+				proxyId, proxySucesor  = closest_preceding_finger(Aid) ## retoma otras proxy ID y sucesor para ubicar esa id
+			return n1
 		
+		def closest_preceding_finger(Aid): ## funcion para revisar quien sigue en la fingertable
+			 ##### aqui se debe implementar saltos en la finger y conexiones con estos ###
 		
 		
 if __name__ == '__main__':
